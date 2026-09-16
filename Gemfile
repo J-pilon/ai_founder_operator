@@ -48,3 +48,5 @@ end
 
 
 gem "rspec", "~> 3.13", :groups => [:development, :test]
+
+gem "twilio-ruby", "= 7.11.2", :groups => [:development, :production]
