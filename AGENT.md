@@ -42,3 +42,7 @@ This is a Rails API application (`config.api_only = true`), meaning:
 - Prioritize accuracy in business insights
 - Design for mobile/SMS consumption patterns
 - Focus on high-priority business metrics
+
+## Shipping Code Conventions
+
+Reference `docs/git-conventions.md` for commit conventions.
