@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  rspec:
+    name: RSpec Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.8
+          bundler-cache: true
+      
+      - name: Set up database
+        run: |
+          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:schema:load RAILS_ENV=test
+      
+      - name: Run RSpec tests
+        run: bundle exec rspec
+      
+      - name: Upload coverage results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: ignore
+
+  rubocop:
+    name: RuboCop Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.8
+          bundler-cache: true
+      
+      - name: Run RuboCop
+        run: bundle exec rubocop --format progress
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.8
+          bundler-cache: true
+      
+      - name: Run Brakeman security scan
+        run: bundle exec brakeman --no-pager --format plain
+        continue-on-error: false
+      
+      - name: Run bundler-audit
+        run: |
+          bundle exec bundler-audit --update
+          bundle exec bundler-audit check
+        continue-on-error: false
+      
+      - name: Upload Brakeman results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brakeman-report
+          path: brakeman-output.json
+          if-no-files-found: ignore

@@ -1,0 +1,117 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.3
+  UseCache: false
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+
+# Lenient configuration - focus on critical issues only
+
+# Style cops - mostly disabled for leniency
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/FetchEnvVar:
+  Enabled: false
+
+# Bundler cops - lenient
+Bundler/OrderedGems:
+  Enabled: false
+
+# Rails cops - lenient
+Rails/FilePath:
+  Enabled: false
+
+Rails/RootPathnameMethods:
+  Enabled: false
+
+# RSpec cops - lenient
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/HookArgument:
+  Enabled: false
+
+# Metrics cops - very lenient limits
+Metrics/MethodLength:
+  Max: 25
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/ClassLength:
+  Max: 200
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - 'spec/**/*'
+
+# Layout cops - lenient
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Enabled: false
+
+# Lint cops - lenient
+Lint/RedundantDirGlobSort:
+  Enabled: false
+
+# Keep important cops enabled
+Lint:
+  Enabled: true
+
+Security:
+  Enabled: true
